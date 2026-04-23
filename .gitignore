@@ -1,0 +1,6 @@
+output/
+node_modules/
+
+.antigravityignore
+.env
+.env.local
