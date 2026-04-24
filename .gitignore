@@ -1,6 +1,6 @@
 output/
 node_modules/
-
+tools/__pycache__/
 .antigravityignore
 .env
 .env.local

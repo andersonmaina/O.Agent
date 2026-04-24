@@ -1,0 +1,2 @@
+This is a test file for testing the write_file_wrapper tool.
+Hello, World!

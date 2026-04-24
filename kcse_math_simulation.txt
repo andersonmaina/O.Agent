@@ -1,0 +1,50 @@
+=================================================================
+KCSE MATHEMATICS SIMULATION EXAMINATION
+=================================================================
+TOPIC 1: ALGEBRA
+-----------------------------------------------------------------
+Q1. Solve for x: 3x - 7 = 2x + 5
+Q2. Simplify: (2x² + 3x - 5) - (x² - 2x + 3)
+Q3. Factorize completely: x² - 9x + 20
+Q4. Solve the simultaneous equations:
+    2x + 3y = 13
+    3x - 2y = 0
+Q5. If a = 3 and b = -2, evaluate: 2a² - 3ab + b²
+
+=================================================================
+TOPIC 2: GEOMETRY
+-----------------------------------------------------------------
+Q1. Find the area of a triangle with base 12cm and height 8cm
+Q2. Calculate the circumference of a circle with radius 7cm (use π = 22/7)
+Q3. Find the volume of a cylinder with radius 5cm and height 10cm
+Q4. A rectangle has length 15cm and width 9cm. Find its diagonal
+Q5. Two angles of a triangle are 45° and 65°. Find the third angle
+
+=================================================================
+TOPIC 3: TRIGONOMETRY
+-----------------------------------------------------------------
+Q1. If sin θ = 3/5, find cos θ (θ is acute)
+Q2. Calculate: tan 45° + cos 60°
+Q3. A ladder 10m long leans against a wall making 60° with ground. Find height
+Q4. If tan A = 4/3, find sin A (A is acute)
+Q5. Simplify: sin² 30° + cos² 30°
+
+=================================================================
+TOPIC 4: COMMERCIAL ARITHMETIC
+-----------------------------------------------------------------
+Q1. Calculate simple interest on Ksh 50,000 at 12% p.a for 3 years
+Q2. A shirt costs Ksh 800. If VAT is 16%, find the total price
+Q3. An item is sold at Ksh 1,200 making a profit of 20%. Find cost price
+Q4. Convert Ksh 100,000 to USD if 1 USD = Ksh 130
+Q5. Calculate compound interest on Ksh 20,000 at 10% p.a for 2 years
+
+=================================================================
+TOPIC 5: STATISTICS AND PROBABILITY
+-----------------------------------------------------------------
+Q1. Find the mean of: 5, 8, 12, 15, 20
+Q2. A die is rolled. What is the probability of getting an even number?
+Q3. Find the median of: 3, 7, 9, 12, 15, 18, 21
+Q4. In a class of 40 students, 25 are boys. What fraction are girls?
+Q5. Calculate the range of: 4, 9, 15, 22, 28
+
+=================================================================
