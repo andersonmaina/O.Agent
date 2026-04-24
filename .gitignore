@@ -1,7 +1,11 @@
 output/
 node_modules/
 __pycache__/
+.claude/
+chat_storage/
+lab/
 tools/__pycache__/
+
 .antigravityignore
 .env
 .env.local
