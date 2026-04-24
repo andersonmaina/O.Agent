@@ -1285,6 +1285,53 @@ def git_current_branch_tool() -> str:
         return f"Error: {e}"
 
 
+# ── Agent Memory Tool Wrappers ──────────────────────────────
+
+@tool
+def agent_set_memory_tool(key: str, value: str) -> str:
+    """Store a value in agent memory (session-only).
+
+    Args:
+        key: Memory key name.
+        value: Value to store.
+    """
+    try:
+        return agent_set_memory(key, value)
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@tool
+def agent_get_memory_tool(key: str) -> str:
+    """Retrieve a value from agent memory.
+
+    Args:
+        key: Memory key name to retrieve.
+    """
+    try:
+        return agent_get_memory(key)
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@tool
+def agent_clear_memory_tool() -> str:
+    """Clear all agent memory."""
+    try:
+        return agent_clear_memory()
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@tool
+def agent_list_memory_tool() -> str:
+    """List all keys in agent memory."""
+    try:
+        return agent_list_memory()
+    except Exception as e:
+        return f"Error: {e}"
+
+
 # ── Tools List ───────────────────────────────────────────────
 
 ALL_TOOLS = [

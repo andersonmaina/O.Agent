@@ -1,4 +1,12 @@
 {
-  "chats": {},
-  "active_chat": null
+  "chats": {
+    "bee56412": {
+      "title": "Chat bee56412",
+      "created_at": "2026-04-24T14:04:33.086830",
+      "updated_at": "2026-04-24T14:17:33.925975",
+      "task_count": 5,
+      "message_count": 8
+    }
+  },
+  "active_chat": "bee56412"
 }
