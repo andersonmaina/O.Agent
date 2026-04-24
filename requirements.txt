@@ -1,0 +1,7 @@
+smolagents
+openai
+httpx
+duckduckgo-search
+beautifulsoup4
+requests
+python-dotenv
