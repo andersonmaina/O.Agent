@@ -9,6 +9,7 @@ from core.config import settings
 from core.agent_manager import AgentManager
 from core.registry import load_tools_from_directory
 from core.memory import SmartContextManager
+from core.output_filter import filtered_output
 from core.brand import (
     print_banner, print_session_info, print_goodbye,
     GRN, YEL, MAG, CYAN, GREY, WHT, R, B, DIM
@@ -91,7 +92,8 @@ def run_task(manager, context_manager, chat_memory, active_chat, user_input: str
     else:
         prompt = user_input
 
-    result = manager.run(prompt)
+    with filtered_output():
+        result = manager.run(prompt)
 
     chat_memory.add_message(active_chat.id, "user",      user_input)
     chat_memory.add_message(active_chat.id, "assistant", str(result))
