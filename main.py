@@ -149,6 +149,29 @@ def interactive_loop(manager, context_manager, chat_memory):
                 _print_help()
                 continue
 
+            if user_input.lower().startswith("/delete"):
+                parts = user_input.split(None, 1)
+                # /delete          → delete active chat
+                # /delete <id>     → delete specific chat
+                target_id = parts[1].strip() if len(parts) > 1 else chat_id
+                if target_id == "—" or not target_id:
+                    print(f"  {YEL}No active chat to delete.{R}\n")
+                else:
+                    confirm = input(f"  {YEL}Delete chat {target_id}? (y/N):{R} ").strip().lower()
+                    if confirm == "y":
+                        was_active = (target_id == chat_id)
+                        chat_memory.delete_chat(target_id)
+                        if was_active:
+                            next_chat = chat_memory.get_active_chat()
+                            if not next_chat:
+                                next_chat = chat_memory.create_chat()
+                            print(f"  {GRN}✔  Deleted. Now on session {next_chat.id}{R}\n")
+                        else:
+                            print(f"  {GRN}✔  Deleted chat {target_id}{R}\n")
+                    else:
+                        print(f"  {GREY}Cancelled.{R}\n")
+                continue
+
             # ── /model commands ───────────────────────────────────────
             if user_input.lower() == "/model list":
                 _cmd_model_list(manager)
@@ -214,17 +237,19 @@ def _cmd_model_list(manager):
 def _print_help():
     """Print help for built-in CLI commands."""
     cmds = [
-        ("/exit          ", "Exit BRAWL"),
-        ("/new           ", "Start a new chat session"),
-        ("/chats         ", "List all saved chat sessions"),
-        ("/switch <id>   ", "Switch to a different session"),
-        ("/clear         ", "Clear the screen and reprint banner"),
-        ("/model         ", "Show active model"),
-        ("/model list    ", "List all Ollama models available locally"),
-        ("/model use <m> ", "Switch to model <m>  e.g. /model use llama3"),
-        ("/model use <m> <p>", "Switch model + provider  e.g. /model use llama3 nvidia"),
-        ("/model delete <m>", "Delete a model from Ollama storage"),
-        ("/help          ", "Show this help"),
+        ("/exit              ", "Exit BRAWL"),
+        ("/new               ", "Start a new chat session"),
+        ("/chats             ", "List all saved chat sessions"),
+        ("/switch <id>       ", "Switch to a different session"),
+        ("/delete            ", "Delete the active chat (with confirmation)"),
+        ("/delete <id>       ", "Delete a specific chat by ID"),
+        ("/clear             ", "Clear the screen and reprint banner"),
+        ("/model             ", "Show active model"),
+        ("/model list        ", "List all Ollama models available locally"),
+        ("/model use <m>     ", "Switch to model <m>  e.g. /model use llama3"),
+        ("/model use <m> <p> ", "Switch model + provider  e.g. /model use llama3 nvidia"),
+        ("/model delete <m>  ", "Delete a model from Ollama storage"),
+        ("/help              ", "Show this help"),
     ]
     print()
     print(f"  {MAG}{B}Built-in Commands{R}")
