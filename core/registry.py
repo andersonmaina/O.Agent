@@ -26,13 +26,18 @@ def load_module_tools(module_name: str) -> List[Any]:
         else:
             module = importlib.import_module(module_name)
 
-        # Find all functions with the @tool attribute
+        # Find all tool instances (@tool creates SimpleTool instances, a Tool subclass)
+        # and Tool subclasses (class-based tools defined in modules)
         for name, obj in inspect.getmembers(module):
-            if hasattr(obj, "_is_tool") and obj._is_tool:
-                tools.append(obj)
-            elif inspect.isclass(obj) and issubclass(obj, Tool) and obj != Tool:
+            if isinstance(obj, Tool):
+                # Avoid duplicates (same object imported from another module)
+                if obj not in tools:
+                    tools.append(obj)
+            elif inspect.isclass(obj) and issubclass(obj, Tool) and obj is not Tool:
                 try:
-                    tools.append(obj())
+                    instance = obj()
+                    if instance not in tools:
+                        tools.append(instance)
                 except Exception:
                     pass
 

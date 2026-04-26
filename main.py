@@ -149,6 +149,41 @@ def interactive_loop(manager, context_manager, chat_memory):
                 _print_help()
                 continue
 
+            # ── /model commands ───────────────────────────────────────
+            if user_input.lower() == "/model list":
+                _cmd_model_list(manager)
+                continue
+
+            if user_input.lower().startswith("/model use "):
+                parts = user_input.split(None, 3)  # /model use <id> [provider]
+                model_id = parts[2] if len(parts) > 2 else ""
+                provider = parts[3] if len(parts) > 3 else None
+                if not model_id:
+                    print(f"  {YEL}Usage: /model use <model_id> [provider]{R}\n")
+                else:
+                    result = manager.switch_model(model_id, provider)
+                    icon = GRN if "→" in result else YEL
+                    print(f"  {icon}✔  {result}{R}\n")
+                continue
+
+            if user_input.lower().startswith("/model delete "):
+                model_id = user_input.split(None, 2)[-1].strip()
+                if not model_id:
+                    print(f"  {YEL}Usage: /model delete <model_id>{R}\n")
+                else:
+                    confirm = input(f"  {YEL}Delete {model_id}? (y/N):{R} ").strip().lower()
+                    if confirm == "y":
+                        result = manager.delete_ollama_model(model_id)
+                        print(f"  {GRN}✔  {result}{R}\n")
+                    else:
+                        print(f"  {GREY}Cancelled.{R}\n")
+                continue
+
+            if user_input.lower() == "/model":
+                print(f"\n  {CYAN}Active:{R} {manager.current_model_info()}")
+                print(f"  {GREY}Use /model list · /model use <id> · /model delete <id>{R}\n")
+                continue
+
             run_task(manager, context_manager, chat_memory, active_chat, user_input)
 
         except KeyboardInterrupt:
@@ -157,19 +192,43 @@ def interactive_loop(manager, context_manager, chat_memory):
             print(f"\n  {'\033[1;31m'}Error:{R} {e}\n")
 
 
+def _cmd_model_list(manager):
+    """Print available Ollama models in a neat table."""
+    print(f"\n  {MAG}{B}Available Models  ({settings.OLLAMA_BASE_URL}){R}")
+    print(f"  {GREY}{'─' * 52}{R}")
+    models = manager.list_ollama_models()
+    if not models or "error" in models[0]:
+        err = models[0].get("error", "unknown error") if models else "no response"
+        print(f"  {YEL}Could not reach Ollama: {err}{R}")
+    else:
+        active = settings.OLLAMA_MODEL
+        for m in models:
+            name  = m.get("name", "?")
+            size  = m.get("size", 0)
+            gb    = f"{size / 1e9:.1f} GB" if size else ""
+            marker = f"{GRN}●{R}" if name == active else f"{GREY}○{R}"
+            print(f"  {marker}  {CYAN}{name:<40}{R}  {GREY}{gb}{R}")
+    print()
+
+
 def _print_help():
     """Print help for built-in CLI commands."""
     cmds = [
-        ("/exit   ", "Exit BRAWL"),
-        ("/new    ", "Start a new chat session"),
-        ("/chats  ", "List all saved chat sessions"),
-        ("/switch ", "Switch to a different session  e.g. /switch abc123"),
-        ("/clear  ", "Clear the screen and reprint banner"),
-        ("/help   ", "Show this help"),
+        ("/exit          ", "Exit BRAWL"),
+        ("/new           ", "Start a new chat session"),
+        ("/chats         ", "List all saved chat sessions"),
+        ("/switch <id>   ", "Switch to a different session"),
+        ("/clear         ", "Clear the screen and reprint banner"),
+        ("/model         ", "Show active model"),
+        ("/model list    ", "List all Ollama models available locally"),
+        ("/model use <m> ", "Switch to model <m>  e.g. /model use llama3"),
+        ("/model use <m> <p>", "Switch model + provider  e.g. /model use llama3 nvidia"),
+        ("/model delete <m>", "Delete a model from Ollama storage"),
+        ("/help          ", "Show this help"),
     ]
     print()
     print(f"  {MAG}{B}Built-in Commands{R}")
-    print(f"  {GREY}{'─' * 44}{R}")
+    print(f"  {GREY}{'─' * 52}{R}")
     for cmd, desc in cmds:
         print(f"  {CYAN}{cmd}{R}  {GREY}{desc}{R}")
     print()
