@@ -1,11 +1,54 @@
-output/
-node_modules/
-__pycache__/
-.claude/
-chat_storage/
-lab/
-tools/__pycache__/
-
-.antigravityignore
+# ── Environment & Secrets ─────────────────────────────────────────
 .env
-.env.local
+.env.*
+*.env
+
+# ── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pycache
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ── Virtual Environments ──────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Chat & Agent Storage ──────────────────────────────────────────
+chat_storage/
+output/
+
+# ── Lab / Scratch ─────────────────────────────────────────────────
+lab/
+
+# ── IDE & Editor ──────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── AI Assistant Configs ──────────────────────────────────────────
+.claude/
+.antigravityignore
+
+# ── OS Artifacts ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs & Temp ───────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig
+
+# ── Node (if any tooling) ─────────────────────────────────────────
+node_modules/

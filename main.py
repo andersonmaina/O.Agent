@@ -84,7 +84,12 @@ def run_task(manager, context_manager, chat_memory, active_chat, user_input: str
     formatted = [{"role": m.role, "content": m.content} for m in messages]
 
     optimized = context_manager.optimize(formatted)
-    prompt    = f"Previous Context Summary: {optimized[0]['content']}\n\nTask: {user_input}"
+
+    # Build prompt — skip context preamble if this is a fresh chat with no history
+    if optimized:
+        prompt = f"Previous Context Summary: {optimized[0]['content']}\n\nTask: {user_input}"
+    else:
+        prompt = user_input
 
     result = manager.run(prompt)
 
