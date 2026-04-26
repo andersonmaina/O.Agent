@@ -5,3 +5,5 @@ duckduckgo-search
 beautifulsoup4
 requests
 python-dotenv
+pydantic-settings
+pydantic

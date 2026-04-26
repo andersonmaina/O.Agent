@@ -7,6 +7,7 @@ import sys
 import platform
 import subprocess
 import shutil
+import tempfile
 from typing import Dict, List, Optional
 
 
@@ -193,6 +194,3 @@ def restart_system(delay: int = 0) -> str:
     else:
         cmd = f'sudo reboot'
     return f"Would execute: {cmd} (blocked for safety)"
-
-
-import tempfile

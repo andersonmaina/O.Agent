@@ -6,6 +6,7 @@ import json
 import time
 from typing import Dict, List, Any, Optional
 from datetime import datetime
+from smolagents import tool
 
 
 class AgentMemory:
@@ -65,6 +66,7 @@ class AgentMemory:
 _agent_memory = AgentMemory()
 
 
+@tool
 def agent_set_memory(key: str, value: str) -> str:
     """Store a value in agent memory.
     Args:
@@ -75,6 +77,7 @@ def agent_set_memory(key: str, value: str) -> str:
     return f"Stored '{key}' in agent memory"
 
 
+@tool
 def agent_get_memory(key: str) -> str:
     """Retrieve a value from agent memory.
     Args:
@@ -86,6 +89,7 @@ def agent_get_memory(key: str) -> str:
     return str(value)
 
 
+@tool
 def agent_list_memory() -> str:
     """List all keys in agent memory."""
     keys = _agent_memory.keys()
@@ -94,12 +98,14 @@ def agent_list_memory() -> str:
     return f"Memory keys: {', '.join(keys)}"
 
 
+@tool
 def agent_clear_memory() -> str:
     """Clear all agent memory."""
     _agent_memory.clear()
     return "Agent memory cleared"
 
 
+@tool
 def agent_memory_history(limit: int = 10) -> str:
     """Get agent memory history.
     Args:
@@ -109,6 +115,7 @@ def agent_memory_history(limit: int = 10) -> str:
     return json.dumps(history, indent=2)
 
 
+@tool
 def agent_think(thought: str) -> str:
     """Record a thought in agent memory for reasoning trace.
     Args:
@@ -119,6 +126,7 @@ def agent_think(thought: str) -> str:
     return f"Thought recorded: {thought[:50]}..."
 
 
+@tool
 def agent_plan(steps: str) -> str:
     """Store a plan in agent memory.
     Args:
@@ -128,6 +136,7 @@ def agent_plan(steps: str) -> str:
     return f"Plan stored with {len(steps.splitlines())} steps"
 
 
+@tool
 def agent_get_plan() -> str:
     """Retrieve current plan from memory."""
     plan = _agent_memory.get('current_plan')
@@ -136,6 +145,7 @@ def agent_get_plan() -> str:
     return plan
 
 
+@tool
 def agent_goal(goal: str) -> str:
     """Set the current agent goal.
     Args:
@@ -145,6 +155,7 @@ def agent_goal(goal: str) -> str:
     return f"Goal set: {goal[:100]}..."
 
 
+@tool
 def agent_get_goal() -> str:
     """Retrieve current goal from memory."""
     goal = _agent_memory.get('current_goal')
@@ -153,6 +164,7 @@ def agent_get_goal() -> str:
     return goal
 
 
+@tool
 def agent_context(data: str) -> str:
     """Add context to agent memory.
     Args:
@@ -166,6 +178,7 @@ def agent_context(data: str) -> str:
     return f"Context added ({len(contexts)} total)"
 
 
+@tool
 def agent_get_context() -> str:
     """Retrieve all context from memory."""
     contexts = _agent_memory.get('contexts', [])
@@ -174,12 +187,14 @@ def agent_get_context() -> str:
     return "\n---\n".join(str(c) for c in contexts)
 
 
+@tool
 def agent_clear_context() -> str:
     """Clear all context from memory."""
     _agent_memory.delete('contexts')
     return "Context cleared"
 
 
+@tool
 def agent_state(state: str) -> str:
     """Set agent state.
     Args:
@@ -189,11 +204,13 @@ def agent_state(state: str) -> str:
     return f"State set to: {state}"
 
 
+@tool
 def agent_get_state() -> str:
     """Get current agent state."""
     return _agent_memory.get('state', 'idle')
 
 
+@tool
 def agent_metadata(key: str, value: str) -> str:
     """Store metadata about the agent session.
     Args:
@@ -208,6 +225,7 @@ def agent_metadata(key: str, value: str) -> str:
     return f"Metadata '{key}' stored"
 
 
+@tool
 def agent_get_metadata() -> str:
     """Get all agent metadata."""
     metadata = _agent_memory.get('metadata', {})
@@ -216,6 +234,7 @@ def agent_get_metadata() -> str:
     return json.dumps(metadata, indent=2)
 
 
+@tool
 def agent_task_start(task: str) -> str:
     """Mark a task as started.
     Args:
@@ -226,6 +245,7 @@ def agent_task_start(task: str) -> str:
     return f"Task started: {task[:50]}..."
 
 
+@tool
 def agent_task_complete(result: str) -> str:
     """Mark current task as complete.
     Args:
@@ -236,6 +256,7 @@ def agent_task_complete(result: str) -> str:
     return f"Task completed: {result[:50]}..."
 
 
+@tool
 def agent_error(error: str) -> str:
     """Record an error in agent memory.
     Args:
@@ -252,6 +273,7 @@ def agent_error(error: str) -> str:
     return f"Error recorded: {error[:50]}..."
 
 
+@tool
 def agent_get_errors() -> str:
     """Get all recorded errors."""
     errors = _agent_memory.get('errors', [])
@@ -260,6 +282,7 @@ def agent_get_errors() -> str:
     return json.dumps(errors, indent=2)
 
 
+@tool
 def agent_stats() -> str:
     """Get agent statistics."""
     return json.dumps({
@@ -269,6 +292,7 @@ def agent_stats() -> str:
     }, indent=2)
 
 
+@tool
 def agent_reset() -> str:
     """Full agent reset - clear all memory."""
     _agent_memory.clear()

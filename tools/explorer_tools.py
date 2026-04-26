@@ -10,12 +10,18 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional, Set
 from datetime import datetime
 from collections import defaultdict
+from smolagents import tool
 
 
+@tool
 def explore_project(root_dir: str = '.', max_depth: int = 5) -> Dict[str, Any]:
     """
     Explore a project structure and return a comprehensive overview.
     Similar to Claude Code's project exploration.
+
+    Args:
+        root_dir: The root directory to explore.
+        max_depth: Maximum folder depth to recurse into.
     """
     result = {
         'root': str(Path(root_dir).resolve()),
@@ -89,11 +95,17 @@ def explore_project(root_dir: str = '.', max_depth: int = 5) -> Dict[str, Any]:
     return result
 
 
+@tool
 def find_symbol(symbol_name: str, directory: str = '.',
                 symbol_type: str = 'all') -> List[Dict[str, Any]]:
     """
     Find a symbol (function, class, variable) across the codebase.
     Similar to Claude Code's symbol search.
+
+    Args:
+        symbol_name: Name of the symbol to search for.
+        directory: Directory to search in.
+        symbol_type: 'all', 'class', 'function', or 'variable'.
     """
     results = []
 
@@ -148,10 +160,14 @@ def _get_line_context(content: str, line_number: int, context_lines: int = 2) ->
     return '\n'.join(lines[start:end])
 
 
+@tool
 def get_file_outline(file_path: str) -> List[Dict[str, Any]]:
     """
     Get an outline of a code file showing its structure.
     Similar to Claude Code's file outline feature.
+
+    Args:
+        file_path: Path to the source code file to outline.
     """
     try:
         content = Path(file_path).read_text(encoding='utf-8', errors='ignore')
@@ -194,10 +210,15 @@ def get_file_outline(file_path: str) -> List[Dict[str, Any]]:
     return outline
 
 
+@tool
 def find_references(symbol_name: str, directory: str = '.') -> List[Dict[str, Any]]:
     """
     Find all references to a symbol in the codebase.
     Similar to Claude Code's find references feature.
+
+    Args:
+        symbol_name: Name of the symbol to find references for.
+        directory: Directory to search in.
     """
     results = []
 
@@ -226,9 +247,14 @@ def find_references(symbol_name: str, directory: str = '.') -> List[Dict[str, An
     return results
 
 
+@tool
 def get_call_hierarchy(function_name: str, directory: str = '.') -> Dict[str, Any]:
     """
     Get the call hierarchy for a function - who calls it and what it calls.
+
+    Args:
+        function_name: Name of the function to analyze.
+        directory: Directory to search in.
     """
     result = {
         'function': function_name,
@@ -270,8 +296,14 @@ def get_call_hierarchy(function_name: str, directory: str = '.') -> Dict[str, An
     return result
 
 
+@tool
 def find_implementation(interface_name: str, directory: str = '.') -> List[Dict[str, Any]]:
-    """Find classes that implement a given interface/base class."""
+    """Find classes that implement a given interface/base class.
+
+    Args:
+        interface_name: Name of the interface or base class to search for.
+        directory: Directory to search in.
+    """
     results = []
 
     for file_path in Path(directory).rglob('*.py'):
@@ -299,9 +331,13 @@ def find_implementation(interface_name: str, directory: str = '.') -> List[Dict[
     return results
 
 
-def get_dependency_graph(directory: str = '.') -> Dict[str, Set[str]]:
+@tool
+def get_dependency_graph(directory: str = '.') -> Dict[str, List[str]]:
     """
     Build a dependency graph of imports in the project.
+
+    Args:
+        directory: Root directory of the project to analyze.
     """
     dependencies = defaultdict(set)
 
@@ -328,10 +364,14 @@ def get_dependency_graph(directory: str = '.') -> Dict[str, Set[str]]:
     return {k: list(v) for k, v in dependencies.items()}
 
 
+@tool
 def analyze_codebase(directory: str = '.') -> Dict[str, Any]:
     """
     Comprehensive codebase analysis.
     Similar to Claude Code's deep codebase understanding.
+
+    Args:
+        directory: Root directory of the project to analyze.
     """
     result = {
         'overview': explore_project(directory),
@@ -372,11 +412,17 @@ def analyze_codebase(directory: str = '.') -> Dict[str, Any]:
     return result
 
 
+@tool
 def search_codebase(query: str, directory: str = '.',
                     max_results: int = 20) -> List[Dict[str, Any]]:
     """
     Search the codebase for relevant code based on a natural language query.
     Uses keyword matching and semantic analysis.
+
+    Args:
+        query: Natural language search query.
+        directory: Root directory to search in.
+        max_results: Maximum number of results to return.
     """
     results = []
     query_terms = query.lower().split()
