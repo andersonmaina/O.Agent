@@ -5,9 +5,77 @@ Advanced code manipulation and analysis tools
 import ast
 import re
 import os
+import json
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from datetime import datetime
+from smolagents import tool
+
+
+@tool
+def analyze_code_tool(code: str, language: str = 'python') -> str:
+    """Analyze code structure and return metrics.
+    Args:
+        code: Code string to analyze.
+        language: Programming language (default 'python').
+    """
+    if language != 'python':
+        return json.dumps({'error': f'Language {language} not supported'})
+
+    try:
+        tree = ast.parse(code)
+
+        classes = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+        functions = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+        imports = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                imports.extend(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom):
+                imports.append(f"{node.module}.*" if node.module else "*")
+
+        lines = code.split('\n')
+        code_lines = sum(1 for line in lines if line.strip() and not line.strip().startswith('#'))
+
+        return json.dumps({
+            'classes': classes,
+            'functions': functions,
+            'imports': imports,
+            'total_lines': len(lines),
+            'code_lines': code_lines,
+            'complexity': len(functions) + len(classes) * 2
+        }, indent=2)
+    except SyntaxError as e:
+        return f"Syntax error: {e}"
+
+
+@tool
+def refactor_variable_tool(code: str, old_name: str, new_name: str) -> str:
+    """Rename a variable throughout code using regex.
+    Args:
+        code: The code to refactor.
+        old_name: The variable name to replace.
+        new_name: The new variable name.
+    """
+    pattern = r'\b' + re.escape(old_name) + r'\b'
+    return re.sub(pattern, new_name, code)
+
+
+@tool
+def validate_syntax_tool(code: str, language: str = 'python') -> str:
+    """Validate code syntax and return errors.
+    Args:
+        code: The code to validate.
+        language: Programming language (default 'python').
+    """
+    if language != 'python':
+        return f"Language {language} not supported"
+
+    try:
+        ast.parse(code)
+        return "OK: Syntax is valid"
+    except SyntaxError as e:
+        return f"Syntax Error at line {e.lineno}: {e.msg}"
 
 
 def analyze_code(code: str, language: str = 'python') -> Dict[str, Any]:
@@ -279,3 +347,4 @@ def compare_code_similarity(code1: str, code2: str) -> float:
     union = tokens1 | tokens2
 
     return len(intersection) / len(union) if union else 0.0
+

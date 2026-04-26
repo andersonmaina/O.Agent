@@ -4,11 +4,59 @@ System utilities and OS interaction tools
 
 import os
 import sys
+import json
 import platform
 import subprocess
 import shutil
 import tempfile
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
+from smolagents import tool
+
+
+@tool
+def get_system_info_tool() -> str:
+    """Get basic system information (OS, version, machine, etc.)."""
+    info = {
+        'system': platform.system(),
+        'release': platform.release(),
+        'version': platform.version(),
+        'machine': platform.machine(),
+        'processor': platform.processor(),
+        'python_version': platform.python_version(),
+    }
+    return json.dumps(info, indent=2)
+
+
+@tool
+def run_command_tool(command: str, timeout: int = 30) -> str:
+    """Run a shell command and return stdout/stderr.
+    Args:
+        command: The shell command to execute.
+        timeout: Maximum execution time in seconds.
+    """
+    try:
+        # Basic safety check
+        blocked = ["rm -rf /", "mkfs", "format c:", "shutdown", "reboot"]
+        if any(b in command.lower() for b in blocked):
+            return "Error: command blocked for safety."
+
+        result = subprocess.run(
+            command,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+        output = f"Return Code: {result.returncode}\n"
+        if result.stdout:
+            output += f"STDOUT:\n{result.stdout}\n"
+        if result.stderr:
+            output += f"STDERR:\n{result.stderr}\n"
+        return output or "(no output)"
+    except subprocess.TimeoutExpired:
+        return f"Error: Command timed out after {timeout}s"
+    except Exception as e:
+        return f"Error: {e}"
 
 
 def get_system_info() -> Dict[str, str]:
@@ -194,3 +242,4 @@ def restart_system(delay: int = 0) -> str:
     else:
         cmd = f'sudo reboot'
     return f"Would execute: {cmd} (blocked for safety)"
+

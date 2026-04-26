@@ -7,6 +7,42 @@ import re
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from datetime import datetime
+from smolagents import tool
+import json
+
+
+@tool
+def semantic_search_tool(directory: str, query: str, file_pattern: str = '*',
+                        max_results: int = 10) -> str:
+    """Search files for content matching a query (keyword-based).
+    Args:
+        directory: Relative path to directory.
+        query: Search keywords.
+        file_pattern: Glob pattern (default '*').
+        max_results: Maximum results to return (default 10).
+    """
+    try:
+        results = semantic_search(directory, query, file_pattern, max_results)
+        return json.dumps(results, indent=2)
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@tool
+def grep_search_tool(pattern: str, directory: str = '.', file_pattern: str = '*',
+                     case_sensitive: bool = False) -> str:
+    """Search files using regex pattern matching.
+    Args:
+        pattern: Regex pattern to search for.
+        directory: Relative path to directory.
+        file_pattern: Glob pattern for files.
+        case_sensitive: Whether match is case sensitive.
+    """
+    try:
+        results = grep_search(pattern, directory, file_pattern, case_sensitive)
+        return json.dumps(results, indent=2)
+    except Exception as e:
+        return f"Error: {e}"
 
 
 def semantic_search(directory: str, query: str, file_pattern: str = '*',
@@ -301,3 +337,4 @@ def get_file_statistics(directory: str = '.') -> Dict[str, Any]:
             stats['total_directories'] += 1
 
     return stats
+
