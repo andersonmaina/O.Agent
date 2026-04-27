@@ -38,7 +38,7 @@ python main.py
     - `web_tools`, `network_tools`, `ai_tools` for connectivity and analysis.
     - `database_tools`, `data_tools`, `math_tools` for structured data handling.
 - **Interactive REPL**: A polished command-line interface with built-in session management.
-
+...more
 ---
 
 ##  CLI commands
