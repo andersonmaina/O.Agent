@@ -5,20 +5,20 @@ BRAWL is a high-performance, autonomous AI agent CLI powered by **Ollama**, **sm
 
 ---
 
-## ⚡ Quick Start
+##  Quick Start
 
-### 1. Install Dependencies
+### 1. Clone & install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
+### 2. Configure environment
 Create a `.env` file (see `.env.example` for details):
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=llama3:8b
+OLLAMA_MODEL=qwen3-coder-next:cloud
 PROVIDER=ollama
-MAX_CONTEXT_TOKENS=8192
+MAX_CONTEXT_TOKENS=4096
 ```
 
 ### 3. Launch BRAWL
@@ -28,12 +28,12 @@ python main.py
 
 ---
 
-## 🛠 Features
+##  Features
 
 - **Multi-Provider Support**: Seamlessly switch between **Ollama**, **HuggingFace**, and **NVIDIA** models.
 - **Smart Context (RTK)**: Intelligent token management with recursive summarization to maintain long-term context without hitting limits.
 - **Persistent Memory**: Chat sessions are automatically saved and can be resumed at any time.
-- **20+ Tool Suites**:
+- **120+ Tool Suites**:
     - `file_tools`, `search_tools`, `code_tools` for system automation.
     - `web_tools`, `network_tools`, `ai_tools` for connectivity and analysis.
     - `database_tools`, `data_tools`, `math_tools` for structured data handling.
@@ -41,7 +41,7 @@ python main.py
 
 ---
 
-## ⌨️ CLI Commands
+##  CLI Commands
 
 | Command | Action |
 |:---|:---|
@@ -56,12 +56,12 @@ python main.py
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 - `main.py`: Entry point for the BRAWL CLI.
 - `core/`: Core logic (Agent management, RTK memory, configuration).
 - `tools/`: Modular tool implementations (filesystem, web, database, etc.).
-- `chat_storage/`: Persistent JSON storage for sessions.
+- `chat_storage/`: Persistent SQLite storage for sessions.
 - `output/`: Default directory for generated files and exports.
 
 ---
