@@ -68,4 +68,4 @@ python main.py
 
 ## Credits
 
-Credits to  [smolagents](https://github.com/huggingface/smolagents) and [Ollama](https://ollama.ai).
+Credits to  [smolagents](https://github.com/huggingface/smolagents) , [rtk-ai](https://github.com/rtk-ai/rtk) and [Ollama](https://ollama.ai).
