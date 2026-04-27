@@ -30,10 +30,10 @@ python main.py
 
 ##  Features
 
-- **Multi-Provider Support**: Seamlessly switch between **Ollama**, **HuggingFace**, and **NVIDIA** models.
-- **Smart Context (RTK)**: Intelligent token management with recursive summarization to maintain long-term context without hitting limits.
-- **Persistent Memory**: Chat sessions are automatically saved and can be resumed at any time.
-- **120+ Tool Suites**:
+- **Multi-provider support**: Seamlessly switch between **Ollama**, **HuggingFace**, and **NVIDIA** models.
+- **Smart context (RTK)**: Intelligent token management with recursive summarization to maintain long-term context without hitting limits.
+- **Persistent memory**: Chat sessions are automatically saved and can be resumed at any time.
+- **120+ tool suites**:
     - `file_tools`, `search_tools`, `code_tools` for system automation.
     - `web_tools`, `network_tools`, `ai_tools` for connectivity and analysis.
     - `database_tools`, `data_tools`, `math_tools` for structured data handling.
@@ -41,7 +41,7 @@ python main.py
 
 ---
 
-##  CLI Commands
+##  CLI commands
 
 | Command | Action |
 |:---|:---|
@@ -56,7 +56,7 @@ python main.py
 
 ---
 
-## Project Structure
+## Project structure
 
 - `main.py`: Entry point for the BRAWL CLI.
 - `core/`: Core logic (Agent management, RTK memory, configuration).
@@ -66,6 +66,6 @@ python main.py
 
 ---
 
-## 🏆 Credits
+## Credits
 
 Built with ❤️ using [smolagents](https://github.com/huggingface/smolagents) and [Ollama](https://ollama.ai).
